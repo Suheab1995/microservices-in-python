@@ -57,5 +57,5 @@ jobs:
          kubectl get pods
          kubectl get deploy -A
          kubectl get svc -A
-         docker ps 
+         kubectl describe svc web-service
          
