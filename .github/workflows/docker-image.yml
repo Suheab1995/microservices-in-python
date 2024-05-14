@@ -51,4 +51,5 @@ jobs:
       # now you can run kubectl to see the pods in the cluster
     - name: Run kubectl commands
       run: |
-         kubectl get pods
+         cd kubernetes
+         kubectl apply -f 
