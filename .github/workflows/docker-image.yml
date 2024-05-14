@@ -52,4 +52,9 @@ jobs:
     - name: Run kubectl commands
       run: |
          cd kubernetes
-         kubectl apply -f 
+         kubectl apply -f deployment.yml
+         kubctl apply -f service.yml
+         kubectl get pods
+         kubectl get deploy -A
+         kubectl get svc -A
+         
