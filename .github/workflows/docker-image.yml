@@ -7,6 +7,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      EC2_URL: ${{ secrets.EC2_URL }}
+      EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
 
     steps:
     - uses: actions/checkout@v2
@@ -44,18 +48,10 @@ jobs:
     - name: Push docker image to dockerhub
       run: |
         docker push suheab/microservices:v1
-
-    - name: start minikube
-      id: minikube
-      uses: medyagh/setup-minikube@latest
-      # now you can run kubectl to see the pods in the cluster
-    - name: Run kubectl commands
-      run: |
-         cd kubernetes
-         kubectl apply -f deployment.yml
-         kubectl apply -f service.yml
-         kubectl get pods
-         kubectl get deploy -A
-         kubectl get svc -A
-         kubectl describe svc web-service
-         
+    - name: SSH to ec2
+      uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
+      with:
+          EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
+          EC2_URL: $EC2_URL
+    - name: Create a new file on the EC2 instance with "hello-world"
+      run: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "echo "hello-world" >> new_file.txt"      
