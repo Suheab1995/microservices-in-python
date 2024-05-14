@@ -53,7 +53,7 @@ jobs:
       run: |
          cd kubernetes
          kubectl apply -f deployment.yml
-         kubctl apply -f service.yml
+         kubectl apply -f service.yml
          kubectl get pods
          kubectl get deploy -A
          kubectl get svc -A
