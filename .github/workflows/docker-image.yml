@@ -44,3 +44,11 @@ jobs:
     - name: Push docker image to dockerhub
       run: |
         docker push suheab/microservices:v1
+
+    - name: start minikube
+      id: minikube
+      uses: medyagh/setup-minikube@latest
+      # now you can run kubectl to see the pods in the cluster
+    - name: Run kubectl commands
+      run: |
+         kubectl get pods
