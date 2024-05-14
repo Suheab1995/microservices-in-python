@@ -59,3 +59,4 @@ jobs:
           script: |
             mkdir sample
             ls -la
+            pwd
