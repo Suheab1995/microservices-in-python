@@ -57,6 +57,5 @@ jobs:
           port: 22
           script_stop: true
           script: |
-            mkdir sample
             ls -la
             pwd
