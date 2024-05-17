@@ -57,7 +57,5 @@ jobs:
           port: 22
           script_stop: true
           script: |
-            cd /home/ec2-user/sample
-            kubectl get pods
             ls -la
             pwd
