@@ -58,6 +58,6 @@ jobs:
           script_stop: true
           script: |
             cd /home/ec2-user/sample
-            scp -r $GITHUB_WORKSPACE/* .
+            kubectl get pods
             ls -la
             pwd
