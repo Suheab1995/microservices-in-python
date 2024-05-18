@@ -58,6 +58,8 @@ jobs:
       run: |
        sudo apt-get install -y ssh
        pwd
+       cd /home/runner/.ssh
+       ls -la
 
       # Copy SSH private key to GitHub workspace
     - name: Copy SSH key
