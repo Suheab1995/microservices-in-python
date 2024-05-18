@@ -56,8 +56,8 @@ jobs:
       # Install SSH
     - name: Install SSH
       run: |
+       sudo apt-get update
        sudo apt-get install -y ssh
-       pwd
        ls -la $HOME/.ssh
 
       # Copy SSH private key to GitHub workspace
