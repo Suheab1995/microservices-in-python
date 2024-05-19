@@ -43,10 +43,12 @@ jobs:
     - name: Push docker image to dockerhub
       run: |
         docker push suheab/microservices:v1
+        pwd
+        ls -la
     - name: Setup SSH connection
       uses: webfactory/ssh-agent@v0.5.3
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
     - name: Copy file to EC2 instance
       uses: appleboy/scp-action@master
@@ -58,4 +60,4 @@ jobs:
         target: /home/ubuntu/sample
     - name: Run kubectl commands on EC2 instance
       run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@3.109.206.145 'cd sample && ls -la && kubectl get pods -A'    
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ubuntu@3.109.206.145 'cd sample && ls -la && kubectl get pods -A'    
