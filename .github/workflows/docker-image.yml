@@ -45,7 +45,15 @@ jobs:
         docker push suheab/microservices:v1
         pwd
         ls -la
-    - name: executing remote ssh commands using password
+    - name: copy manifest files to the ec2 instance
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: 3.109.206.145
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+        source: "tests/a.txt,tests/b.txt"
+        target: /home/ubuntu/sample/  
+    - name: Executing kubectl commands
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: 3.109.206.145
