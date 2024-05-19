@@ -45,9 +45,13 @@ jobs:
         docker push suheab/microservices:v1
         pwd
         ls -la
-    - name: Copy deployment and service manifest files to ec2 
+    - name: Copy deployment and service manifest files to ec2
+      uses: tanmancan/action-setup-ssh-agent-key@1.0.0
+      with:
+          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+    - name: Copy deployment and service manifest files to ec2      
       run: |
-       scp -i {{ secrets.EC2_SSH_PRIVATE_KEY }} deployment.yml ubuntu@3.109.206.145:/home/ubuntu/sample
+        scp -T deployment.yml ubuntu@3.109.206.145:/home/ubuntu/sample
     - name: Executing kubectl commands
       uses: appleboy/ssh-action@v1.0.3
       with:
