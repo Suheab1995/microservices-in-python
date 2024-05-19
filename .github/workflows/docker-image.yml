@@ -51,11 +51,11 @@ jobs:
     - name: Copy file to EC2 instance
       uses: appleboy/scp-action@master
       with:
-        host: <EC2_PUBLIC_IP>
-        username: <EC2_USERNAME>
+        host: 3.109.206.145
+        username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: <LOCAL_FILE_PATH>
-        target: <REMOTE_DIRECTORY>
+        source: /kubernetes
+        target: /home/ubuntu/sample
     - name: Run kubectl commands on EC2 instance
       run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} <EC2_USERNAME>@<EC2_PUBLIC_IP> 'cd <REMOTE_DIRECTORY> && <COMMAND_1> && <COMMAND_2>'    
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@3.109.206.145 'cd sample && ls -la && kubectl get pods -A'    
