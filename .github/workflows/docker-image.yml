@@ -43,24 +43,19 @@ jobs:
     - name: Push docker image to dockerhub
       run: |
         docker push suheab/microservices:v1
-    # Install AWS CLI
-    - name: Install AWS CLI
-      run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
-
-      # Configure AWS credentials
-    - name: Configure AWS credentials
-      run: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} && aws configure set default.region ${{ secrets.AWS_DEFAULT_REGION }}
-
-    - name: Install SSH and Copy SSH Key
-      uses: ./.github/actions/install-ssh-and-copy-key
+    - name: Setup SSH connection
+      uses: webfactory/ssh-agent@v0.5.3
       with:
-          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Add EC2 instance to known hosts
-      run: ssh-keyscan -t rsa ${{ secrets.EC2_PUBLIC_IP }} >> $HOME/.ssh/known_hosts 
-     # Connect to EC2 instance and configure Minikube and kubectl
-    - name: Configure Minikube and kubectl on EC2 instance
+    - name: Copy file to EC2 instance
+      uses: appleboy/scp-action@master
+      with:
+        host: <EC2_PUBLIC_IP>
+        username: <EC2_USERNAME>
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: <LOCAL_FILE_PATH>
+        target: <REMOTE_DIRECTORY>
+    - name: Run kubectl commands on EC2 instance
       run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_PUBLIC_IP }} 'bash -s' < configure_minikube_and_kubectl.sh
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} <EC2_USERNAME>@<EC2_PUBLIC_IP> 'cd <REMOTE_DIRECTORY> && <COMMAND_1> && <COMMAND_2>'    
