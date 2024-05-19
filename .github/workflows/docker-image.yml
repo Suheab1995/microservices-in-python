@@ -45,19 +45,12 @@ jobs:
         docker push suheab/microservices:v1
         pwd
         ls -la
-    - name: Setup SSH connection
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-
-    - name: Copy file to EC2 instance
-      uses: appleboy/scp-action@master
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.3
       with:
         host: 3.109.206.145
-        username: ubuntu
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: /kubernetes
-        target: /home/ubuntu/sample
-    - name: Run kubectl commands on EC2 instance
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ubuntu@3.109.206.145 'cd sample && ls -la && kubectl get pods -A'    
+        username: ubuntu 
+        key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+        script: |
+           cd sample
+           kubectl get pods -A
