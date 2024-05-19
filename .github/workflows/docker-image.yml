@@ -51,7 +51,7 @@ jobs:
         host: 3.109.206.145
         username: ubuntu
         key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-        source: "tests/a.txt,tests/b.txt"
+        source: "kubernetes/deployment.yml,kubernetes/service.yml"
         target: /home/ubuntu/sample/  
     - name: Executing kubectl commands
       uses: appleboy/ssh-action@v1.0.3
