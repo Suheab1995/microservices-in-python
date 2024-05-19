@@ -45,14 +45,6 @@ jobs:
         docker push suheab/microservices:v1
         pwd
         ls -la
-    - name: copy manifest files to the ec2 instance
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: 3.109.206.145
-        username: ubuntu
-        key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-        source: "deployment.yml,service.yml"
-        target: /home/ubuntu/sample/  
     - name: Executing kubectl commands
       uses: appleboy/ssh-action@v1.0.3
       with:
@@ -64,3 +56,6 @@ jobs:
            sudo mkdir sample1
            ls -la
            sudo kubectl get pods -A
+           sudo kubectl apply -f deployment.yml
+           sudo kubectl apply -f service.yml
+           sudo kubectl get services
