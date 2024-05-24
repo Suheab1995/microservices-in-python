@@ -42,27 +42,6 @@ jobs:
          password: Asma@786B
     - name: Push docker image to dockerhub
       run: |
-        docker push suheab/microservices:v1
+        docker push suheab/microservices:latest
         pwd
         ls -la
-    - name: Copy deployment and service manifest files to ec2
-      uses: tanmancan/action-setup-ssh-agent-key@1.0.0
-      with:
-          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-    - name: Copy deployment and service manifest files to ec2      
-      run: |
-        scp -T deployment.yml ubuntu@3.109.206.145:/home/ubuntu/sample
-    - name: Executing kubectl commands
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: 3.109.206.145
-        username: ubuntu 
-        key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-        script: |
-           cd sample
-           cd /home/ubuntu/sample/microservices-in-python
-           ls -la
-           sudo kubectl get pods -A
-           sudo kubectl apply -f deployment.yml
-           sudo kubectl apply -f service.yml
-           sudo kubectl get services
