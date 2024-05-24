@@ -1,7 +1,9 @@
 name: Python application
 
 on: 
- workflow_dispatch:
+ repository_dispatch:
+     types: 
+      - sampleevent
 
 jobs:
   build:
