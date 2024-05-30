@@ -1,21 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: python-webapp
-  labels:
-    app: web
+  name: demo-deployment
+  namespace: default
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: web
+      app: eksdemo
   template:
     metadata:
       labels:
-        app: web
+        app: eksdemo
     spec:
       containers:
-      - name: webapp
-        image: suheab/microservices:v1
-        ports:
-        - containerPort: 5000
+        - name: back-end
+          image: suheab/microservices:latest
+          ports:
+            - containerPort: 5000
