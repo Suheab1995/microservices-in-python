@@ -47,10 +47,6 @@ jobs:
       run: |
         docker push suheab/microservices:latest
         pwd
-
-    - name: Copy deployment and service manifest files to ec2      
-      run: |
-        scp -T deployment.yml ubuntu@13.201.191.172:/home/ubuntu/sample
     - name: Executing kubectl commands
       uses: appleboy/ssh-action@v1.0.3
       with:
