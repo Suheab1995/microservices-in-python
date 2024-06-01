@@ -48,14 +48,21 @@ jobs:
         docker push suheab/microservices:latest
         pwd
 
-    - name: Run Kubectl Commands on Minikube Server
-      uses: appleboy/ssh-action@master
+    - name: Copy deployment and service manifest files to ec2      
+      run: |
+        scp -T deployment.yml ubuntu@3.109.206.145:/home/ubuntu/sample
+    - name: Executing kubectl commands
+      uses: appleboy/ssh-action@v1.0.3
       with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          script: |
-            # Run any commands you want to execute on the EC2 server
-            echo "Hello from EC2"
-            pwd
-            ls -la    
+        host: 13.201.191.172
+        username: ubuntu 
+        key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+        script: |
+           cd sample
+           cd /home/ubuntu/sample/microservices-in-python
+           ls -la
+           sudo kubectl get pods -A
+           sudo kubectl apply -f deployment.yml
+           sudo kubectl apply -f service.yml
+           sudo kubectl get services
+
