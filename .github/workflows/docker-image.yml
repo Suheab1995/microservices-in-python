@@ -1,6 +1,7 @@
 name: Python application
 
 on: 
+ workflow_dispatch: 
  repository_dispatch:
      types: 
       - sampleevent
@@ -46,4 +47,15 @@ jobs:
       run: |
         docker push suheab/microservices:latest
         pwd
-        ls -la
+
+    - name: Run Kubectl Commands on Minikube Server
+      uses: appleboy/ssh-action@master
+      with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            # Run any commands you want to execute on the EC2 server
+            echo "Hello from EC2"
+            pwd
+            ls -la    
