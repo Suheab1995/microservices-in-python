@@ -54,11 +54,10 @@ jobs:
         username: ubuntu 
         key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
         script: |
-           cd sample
            cd /home/ubuntu/sample/microservices-in-python
            ls -la
-           sudo kubectl get pods -A
+           sudo kubectl delete -f deployment.yml || true
+           sudo kubectl delete -f service.yml || true
            sudo kubectl apply -f deployment.yml
            sudo kubectl apply -f service.yml
-           sudo kubectl get services
 
